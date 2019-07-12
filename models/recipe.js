@@ -9,9 +9,10 @@ const ingredientSchema = new Schema({
 });
 
 const recipeSchema = new Schema({
+   name: {type: String, required: true},
    station: {type: String, required: true},
    ingredients: [ingredientSchema],
-   technique: {type: String, required: true}
+   technique: [{type: String, required: true}]
 }, {
    timestamps: true
 });
