@@ -1,4 +1,5 @@
 import React from 'react';
+import RecipeForm from '../RecipeForm/RecipeForm';
 
 const MainPane = (props) => {
    return ( 
@@ -15,7 +16,11 @@ const MainPane = (props) => {
             </li>
          </ul>
          <div className="tab-content" id="myTabContent">
-            <div className="tab-pane fade show active" id="recipes" role="tabpanel" aria-labelledby="recipes-tab">...</div>
+            <div className="tab-pane fade show active" id="recipes" role="tabpanel" aria-labelledby="recipes-tab">
+               <RecipeForm 
+                  restaurant={props.restaurant}
+               />
+            </div>
             <div className="tab-pane fade" id="staff" role="tabpanel" aria-labelledby="staff-tab">...</div>
             <div className="tab-pane fade" id="revisions" role="tabpanel" aria-labelledby="revisions-tab">...</div>
          </div>

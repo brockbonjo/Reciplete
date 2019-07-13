@@ -44,6 +44,10 @@ class App extends React.PureComponent {
     console.log(query);
   };
 
+  handleSubmitRecipe = () => {
+    
+  }
+
   async componentDidMount() {
     const user = userService.getUser();
     const restaurant = await restaurantService.getRestaurant(user._id);

@@ -6,7 +6,9 @@ const HomePage = (props) => {
    return ( 
       <>
          <h2>Hello, {user}</h2>
-         <MainPane />
+         <MainPane 
+            restaurant={props.restaurant}
+         />
       </>
     );
 }

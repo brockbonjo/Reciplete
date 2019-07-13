@@ -8,11 +8,18 @@ const ingredientSchema = new Schema({
    timestamps: true
 });
 
+const techniqueSchema = new Schema({
+   content: {type: String, required: true}
+}, {
+   timestamps: true
+});
+
 const recipeSchema = new Schema({
    name: {type: String, required: true},
    station: {type: String, required: true},
    ingredients: [ingredientSchema],
-   technique: [{type: String, required: true}]
+   technique: [techniqueSchema],
+   revisions: [{type: Schema.Types.ObjectId, ref: 'Revision'}]
 }, {
    timestamps: true
 });
