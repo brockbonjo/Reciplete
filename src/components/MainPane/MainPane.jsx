@@ -17,7 +17,8 @@ const MainPane = (props) => {
          </ul>
          <div className="tab-content" id="myTabContent">
             <div className="tab-pane fade show active" id="recipes" role="tabpanel" aria-labelledby="recipes-tab">
-               <RecipeForm 
+               <RecipeForm
+                  history={props.history}
                   restaurant={props.restaurant}
                />
             </div>

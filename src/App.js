@@ -45,7 +45,7 @@ class App extends React.PureComponent {
   };
 
   handleSubmitRecipe = () => {
-    
+
   }
 
   async componentDidMount() {
@@ -66,8 +66,9 @@ class App extends React.PureComponent {
           handleSearch={this.handleSearch}
         />
         <Switch>
-          <Route exact path='/' render={() => 
+          <Route exact path='/' render={({ history }) => 
             <HomePage
+              history={history}
               user={this.state.user}
               restaurant={this.state.restaurant}
               recipes={this.state.recipes}

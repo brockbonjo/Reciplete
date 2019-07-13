@@ -7,6 +7,7 @@ const HomePage = (props) => {
       <>
          <h2>Hello, {user}</h2>
          <MainPane 
+            history={props.history}
             restaurant={props.restaurant}
          />
       </>
