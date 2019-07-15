@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import userService from './services/userService';
 import recipesService from './services/recipesService';
 import restaurantService from './services/restaurantService';
@@ -15,15 +15,17 @@ import SignupPage from './pages/SignupPage/SignupPage';
 class App extends React.PureComponent {
   state = { 
     restaurant: null,
+    searchResults: [],
     stations: [],
-    user: null,
+    user: userService.getUser(),
     recipe: {
       name: '',
       station: '',
       ingredients: [this.getNewIngredient()],
       technique: [this.getNewStep()]
     },
-    editMode: false
+    editMode: false,
+    query: ''
   }
 
   initializeState() {
@@ -110,10 +112,6 @@ class App extends React.PureComponent {
       recipe.technique = technique;
       this.setState({ recipe });
   };
-
-  handleSubmitEdit = () => {
-
-  };
   
   handleEditRecipe = (recipe) => {
     this.setState({ recipe });
@@ -125,46 +123,64 @@ class App extends React.PureComponent {
     console.log(recipe);
   };
   
-  handleSubmit = async (e) => {
+  handleSubmitRecipe = async (e) => {
     e.preventDefault();
-    recipesService.createRecipe(this.props.restaurant._id ,this.state.recipe);
+    recipesService.createOrEditRecipe(this.props.restaurant._id ,this.state.recipe, this.state.editMode);
     this.handleReset();
     this.props.history.push('/');
   };
 
-  handleSearch = (e, query) => {
-    e.preventDefault();
-    console.log(query);
+  handleUpdateQuery = (e) => {
+    const query = e.target.value;
+    // filter it here
+    const searchResults = this.state.restaurant.recipes.filter(recipe => recipe.name.toLowerCase().includes(query.toLowerCase()));
+    // set the state with the results here
+    this.setState({ query, searchResults });
   };
 
-  handleAddStaffMember = (e, state) => {
+  handleStationQuery = (query) => {
+    if (query) {
+      let searchResults = this.state.restaurant.recipes.filter(recipe => recipe.station.toLowerCase().includes(query.toLowerCase()));
+      this.setState({ searchResults });
+    } else {
+      this.setState({ searchResults: [] });
+    }
+  };
+
+  handleAddStaffMember = (e, newStaff) => {
     e.preventDefault();
-    console.log(state);
+    restaurantService.addUser(newStaff, this.state.restaurant._id);
   }
 
   // During Signup/Login/Load:
   handleSignupOrLogin = () => {
-      this.setState({user: userService.getUser()});
+    this.setState({user: userService.getUser()});
   };
 
   handleLogout = () => {
     userService.logout();
-    this.setState({user: null});
+    this.setState({
+      restaurant: null,
+      stations: [],
+      user: null,
+      ...this.initializeState()
+    });
   };
 
-  handleNewRestaurant = (newRestaurant) => {
-    const user = userService.getUser();
+  handleNewRestaurant = async (newRestaurant) => {
+    const user = await userService.getUser();
     if (user) { newRestaurant.users.push(user._id) 
     this.setState({ restaurant: newRestaurant });
     restaurantService.createRestaurant(newRestaurant);
     };
   };
 
-  async componentWillMount() {
-    const user = userService.getUser();
-    const restaurant = await restaurantService.getRestaurant(user._id);
-    const stations = await recipesService.getStationList();
-    this.setState({user, restaurant, stations});
+  async componentDidMount() {
+    if (this.state.user) { 
+      const restaurant = await restaurantService.getRestaurant(this.state.user._id);
+      const stations = await recipesService.getStationList();
+      this.setState({restaurant, stations});
+    }
   }
 
   render() { 
@@ -175,16 +191,24 @@ class App extends React.PureComponent {
           restaurant={this.state.restaurant}
           handleLogout={this.handleLogout}
           handleSearch={this.handleSearch}
+          query={this.state.query}
+          handleUpdateQuery={this.handleUpdateQuery}
         />
         <Switch>
-          <Route exact path="/" render={() => 
-            <RecipeList
-              stations={this.state.stations}
-              handleEditRecipe={this.handleEditRecipe}
-              handleDeleteRecipe={this.handleDeleteRecipe}
-              user={this.state.user}
-              restaurant={this.state.restaurant}
-            />
+          <Route exact path="/" render={() => (
+              this.state.user ?
+                <RecipeList
+                  stations={this.state.stations}
+                  searchResults={this.state.searchResults}
+                  handleEditRecipe={this.handleEditRecipe}
+                  handleDeleteRecipe={this.handleDeleteRecipe}
+                  handleStationQuery={this.handleStationQuery}
+                  user={this.state.user}
+                  restaurant={this.state.restaurant}
+                />
+              :
+              <Redirect to="/login" />
+            )
           }/>
           <Route exact path="/form" render={() =>
             <RecipeForm
@@ -192,7 +216,7 @@ class App extends React.PureComponent {
               recipe={this.state.recipe}
               restaurant={this.state.restaurant}
               handleReset={this.handleReset}
-              handleSubmit={this.handleSubmit}
+              handleSubmitRecipe={this.handleSubmitRecipe}
               handleRecipeChange={this.handleRecipeChange}
               handleIngredientChange={this.handleIngredientChange}
               handleAddIngredient={this.handleAddIngredient}

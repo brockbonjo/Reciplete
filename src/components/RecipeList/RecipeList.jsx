@@ -4,12 +4,18 @@ import './RecipeList.css'
 class RecipeList extends Component {
 
    render() { 
-      const stationLinks = this.props.stations.map((station, idx) => 
-         <button key={`st${idx}`}className="btn btn-primary m-1">{station}</button>
-       );
+      const stationLinks = 
+         <div>
+            <button className="btn btn-primary m-1" onClick={() => this.props.handleStationQuery()}>All</button>
+            {this.props.stations.map((station, idx) => 
+               <button key={`st${idx}`} className="btn btn-primary m-1" onClick={() => this.props.handleStationQuery(station)}>{station}</button>
+            )}
+         </div>
+      
+      let recipeSource = this.props.restaurant ? this.props.searchResults.length ? this.props.searchResults : this.props.restaurant.recipes : null;
       // Generates a styled recipe card for each recipe in the restaurant's catalog
       let recipeCards = this.props.user ? <div className="col-sm-12">
-         {this.props.restaurant.recipes.map((recipe, idx) => {
+         {this.props.restaurant ? recipeSource.map((recipe, idx) => {
                var ingredients = recipe.ingredients.map((ing, idx) => <li key={`r${idx}`}>{ing.name} - {ing.amount}</li> )
                var steps = recipe.technique.map((step, idx) => 
                   <li key={`s${idx}`} className="row">
@@ -40,10 +46,9 @@ class RecipeList extends Component {
                      </div>
                   </div>
                )
-            })}
+            }) : null }
          </div>
          : null;
-
 
       // End Block, actual render return: 
       return ( 

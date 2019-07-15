@@ -15,10 +15,14 @@ async function create(req, res) {
 
 async function get(req, res) {
    await Restaurant
-      .find({users: {$in: req.params.id}}, (err, restaurant) => {
+      .find({users: {$in: req.params.id}})
+      .populate('recipes')
+      .exec((err, restaurant) => {
          if (err) console.log(err);
          res.status(200).json(restaurant[0]);
-      })
-      .populate('recipes')
-      .exec(err => {if (err) console.log(err)});
+      });
 }
+                           //, (err, restaurant) => {
+                           //    if (err) console.log(err);
+                           //    res.status(200).json(restaurant[0]);
+                           // }

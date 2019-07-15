@@ -3,19 +3,11 @@ import { Link } from 'react-router-dom';
 import './NavBar.css';
 
 class NavBar extends React.Component {
-   state = {
-      query: ''
-   };
-
-   handleUpdateQuery = (e) => {
-      const query = e.target.value;
-      this.setState({ query });
-   };
 
    handleSubmitSearch = (e) => {
       this.props.handleSearch(e, this.state.query);
       this.setState({ query: '' });
-   }
+   };
 
    render() {
       let user = this.props.user ? this.props.user.name : 'Chef';
@@ -58,13 +50,12 @@ class NavBar extends React.Component {
                   <input 
                      className="form-control mr-sm-2" 
                      type="search" 
-                     placeholder="Recipe Name" 
+                     placeholder="Search Recipe Names" 
                      aria-label="Search" 
                      name="query" 
-                     value={this.state.query} 
-                     onChange={this.handleUpdateQuery}
+                     value={this.props.query} 
+                     onChange={(e) => this.props.handleUpdateQuery(e)}
                   />
-                  <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search Recipes</button>
                </form>
             </div>
          </nav>

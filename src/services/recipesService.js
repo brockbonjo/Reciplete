@@ -1,12 +1,12 @@
 const BASE_URL = '/api/restaurants'
 
 export default {
-   createRecipe,
+   createOrEditRecipe,
    updateRecipe,
    getStationList
 };
 
-function createRecipe(restaurantId, recipe) {
+function createOrEditRecipe(restaurantId, recipe, editMode) {
    const options = {
       method: 'POST',
       headers: {'Content-type': 'application/json'},
