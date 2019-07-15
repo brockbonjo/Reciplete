@@ -4,8 +4,8 @@ import './RecipeList.css'
 class RecipeList extends Component {
 
    render() { 
-      const stationLinks = this.props.stations.map(station => 
-         <button className="btn btn-primary m-1">{station}</button>
+      const stationLinks = this.props.stations.map((station, idx) => 
+         <button key={`st${idx}`}className="btn btn-primary m-1">{station}</button>
        );
       // Generates a styled recipe card for each recipe in the restaurant's catalog
       let recipeCards = this.props.user ? <div className="col-sm-12">
@@ -25,8 +25,20 @@ class RecipeList extends Component {
                      <div className="card-body">
                         <ul>{ingredients}</ul>
                         <ul>{steps}</ul>
-                        <button className="btn btn-primary" onClick={() => this.props.handleEditRecipe(recipe)}>Edit</button>
-                        {this.props.user.admin ? <button className="btn btn-danger">Delete</button> : null}
+                        <div className="form-inline">
+                           <button className="btn btn-primary mr-1" onClick={(e) => this.props.handleEditRecipe(e, recipe)}>Edit</button>
+                           {this.props.user.admin ? 
+                              <form className="input-group" onSubmit={() => this.props.handleDeleteRecipe(recipe)}>
+                                 <input type="submit" className="btn btn-danger" value="Delete"/>
+                                 <div className="input-group-append">
+                                    <div className="input-group-text">
+                                       <input type="checkbox" required/> 
+                                    </div>
+                                 </div>
+                                 <p className="my-auto">(confirm delete)</p>
+                              </form>
+                           : null}
+                        </div>
                      </div>
                   </div>
                )

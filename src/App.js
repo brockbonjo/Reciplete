@@ -118,6 +118,11 @@ class App extends React.PureComponent {
     this.setState({ recipe });
     this.props.history.push('/form');
   }
+
+  handleDeleteRecipe = (e, recipe) => {
+    
+    console.log(recipe);
+  };
   
   handleSubmit = async (e) => {
     e.preventDefault();
@@ -169,6 +174,7 @@ class App extends React.PureComponent {
             <RecipeList
               stations={this.state.stations}
               handleEditRecipe={this.handleEditRecipe}
+              handleDeleteRecipe={this.handleDeleteRecipe}
               user={this.state.user}
               restaurant={this.state.restaurant}
             />
