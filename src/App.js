@@ -6,6 +6,7 @@ import recipesService from './services/recipesService';
 import restaurantService from './services/restaurantService';
 import NavBar from './components/NavBar/NavBar';
 import RecipeForm from './components/RecipeForm/RecipeForm';
+import AddStaffForm from './components/AddStaffForm/AddStaffForm';
 import RecipeList from './components/RecipeList/RecipeList';
 import LoginPage from './pages/LoginPage/LoginPage';
 import SignupPage from './pages/SignupPage/SignupPage';
@@ -136,6 +137,11 @@ class App extends React.PureComponent {
     console.log(query);
   };
 
+  handleAddStaffMember = (e, state) => {
+    e.preventDefault();
+    console.log(state);
+  }
+
   // During Signup/Login/Load:
   handleSignupOrLogin = () => {
       this.setState({user: userService.getUser()});
@@ -148,12 +154,13 @@ class App extends React.PureComponent {
 
   handleNewRestaurant = (newRestaurant) => {
     const user = userService.getUser();
-    if (user) { newRestaurant.users.push(user._id) };
+    if (user) { newRestaurant.users.push(user._id) 
     this.setState({ restaurant: newRestaurant });
     restaurantService.createRestaurant(newRestaurant);
+    };
   };
 
-  async componentDidMount() {
+  async componentWillMount() {
     const user = userService.getUser();
     const restaurant = await restaurantService.getRestaurant(user._id);
     const stations = await recipesService.getStationList();
@@ -195,6 +202,13 @@ class App extends React.PureComponent {
               handleRemoveStep={this.handleRemoveStep}
             />
           }/>
+          {this.state.user ? this.state.user.admin ? 
+            <Route exact path="/addstaff" render={() => 
+              <AddStaffForm 
+                handleAddStaffMember={this.handleAddStaffMember}
+              />
+            } />
+            : null : null}
           <Route exact path='/signup' render={({ history }) => 
             <SignupPage
               history={history}

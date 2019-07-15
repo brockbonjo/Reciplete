@@ -25,8 +25,8 @@ class NavBar extends React.Component {
                Staff
             </a>
             <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-               <Link className="dropdown-item" to='/'>View Staff</Link>
-               <Link className="dropdown-item" to="/">Add/Promote</Link>
+               <Link className="dropdown-item" to="/">View Staff</Link>
+               <Link className="dropdown-item" to="/addstaff">Add/Promote</Link>
             </div>
          </li>
          : null : null;

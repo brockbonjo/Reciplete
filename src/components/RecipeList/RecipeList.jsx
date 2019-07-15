@@ -26,14 +26,12 @@ class RecipeList extends Component {
                         <ul>{ingredients}</ul>
                         <ul>{steps}</ul>
                         <div className="form-inline">
-                           <button className="btn btn-primary mr-1" onClick={(e) => this.props.handleEditRecipe(e, recipe)}>Edit</button>
+                           <button className="btn btn-primary mr-1" onClick={() => this.props.handleEditRecipe(recipe)}>Edit</button>
                            {this.props.user.admin ? 
                               <form className="input-group" onSubmit={() => this.props.handleDeleteRecipe(recipe)}>
-                                 <input type="submit" className="btn btn-danger" value="Delete"/>
-                                 <div className="input-group-append">
-                                    <div className="input-group-text">
-                                       <input type="checkbox" required/> 
-                                    </div>
+                                 <button type="submit" className="btn btn-danger">Delete</button>
+                                 <div className="input-group-text">
+                                    <input type="checkbox" required/> 
                                  </div>
                                  <p className="my-auto">(confirm delete)</p>
                               </form>
