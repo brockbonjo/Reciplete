@@ -3,6 +3,7 @@ const Restaurant = require('../models/restaurant');
 
 module.exports = {
    create,
+   stations,
 };
 
 async function create(req, res) {
@@ -15,4 +16,11 @@ async function create(req, res) {
    } catch (err) {
       res.json({ err });
    }
+}
+
+async function stations(req, res) {
+   return await Recipe.find().distinct('station', function(err, stations) {
+      if (err) console.log(err);
+      res.json(stations);
+  });
 }

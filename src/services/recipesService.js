@@ -2,7 +2,8 @@ const BASE_URL = '/api/restaurants'
 
 export default {
    createRecipe,
-
+   updateRecipe,
+   getStationList
 };
 
 function createRecipe(restaurantId, recipe) {
@@ -12,4 +13,12 @@ function createRecipe(restaurantId, recipe) {
       body: JSON.stringify(recipe)
    };
    return fetch(`${BASE_URL}/${restaurantId}/recipes`, options).then(res => res.json());
+}
+
+function updateRecipe() {
+
+}
+
+async function getStationList() {
+   return fetch(BASE_URL, {method: 'GET'}).then(res => res.json());
 }

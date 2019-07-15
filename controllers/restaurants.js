@@ -14,8 +14,11 @@ async function create(req, res) {
 }
 
 async function get(req, res) {
-   Restaurant.find({users: {$in: req.params.id}}, (err, restaurant) => {
-      if (err) console.log(err);
-      res.status(200).json(restaurant[0]);
-   });
+   await Restaurant
+      .find({users: {$in: req.params.id}}, (err, restaurant) => {
+         if (err) console.log(err);
+         res.status(200).json(restaurant[0]);
+      })
+      .populate('recipes')
+      .exec(err => {if (err) console.log(err)});
 }

@@ -1,0 +1,16 @@
+.tech-row {
+   margin-left: -30px;
+   flex-wrap: nowrap;
+}
+
+h2 {
+   margin: .5rem;
+}
+
+.step-box, .button-box {
+   padding-right: 25px;
+}
+
+.button-box {
+   padding-left: 8px;
+}

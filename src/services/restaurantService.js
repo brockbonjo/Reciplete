@@ -16,7 +16,7 @@ function createRestaurant(restaurant) {
    return fetch(BASE_URL, options).then(res => res.json());
 }
 
-function getRestaurant(userId) {
+async function getRestaurant(userId) {
    return fetch(`${BASE_URL}/${userId}`, { method: 'GET' }).then(res => res.json());
 }
 
