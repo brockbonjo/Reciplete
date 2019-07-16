@@ -10,7 +10,7 @@ const RecipeForm = (props) => {
    return (
       <div className="container">
          <h2 className="header-footer">{props.editMode ? `Editing ${props.recipe.name}` : 'Add New Recipe'}</h2>
-         <form onSubmit={props.handleSubmitRecipe} >
+         <form onSubmit={props.editMode ? props.handleSubmitEdit : props.handleCreateRecipe} >
             <div className="row">
                <div className="form-group col-sm-6">
                   <label htmlFor="recipe-name">Recipe Name:</label>

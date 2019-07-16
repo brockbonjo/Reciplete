@@ -22,7 +22,3 @@ async function get(req, res) {
          res.status(200).json(restaurant[0]);
       });
 }
-                           //, (err, restaurant) => {
-                           //    if (err) console.log(err);
-                           //    res.status(200).json(restaurant[0]);
-                           // }

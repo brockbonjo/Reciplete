@@ -113,23 +113,34 @@ class App extends React.PureComponent {
       this.setState({ recipe });
   };
   
-  handleEditRecipe = (recipe) => {
-    this.setState({ recipe });
-    this.props.history.push('/form');
-  }
-
-  handleDeleteRecipe = (e, recipe) => {
-    
-    console.log(recipe);
-  };
-  
-  handleSubmitRecipe = async (e) => {
+  handleCreateRecipe = (e) => {
     e.preventDefault();
-    recipesService.createOrEditRecipe(this.props.restaurant._id ,this.state.recipe, this.state.editMode);
+    recipesService.createRecipe(this.state.restaurant._id ,this.state.recipe);
     this.handleReset();
     this.props.history.push('/');
   };
+  
+  handleEditRecipe = (recipe) => {
+    this.setState({ recipe, editMode: true });
+    this.props.history.push('/form');
+  }
 
+  handleSubmitEdit = async (e) => {
+    e.preventDefault();
+    await recipesService.updateRecipe(this.state.restaurant._id ,this.state.recipe);
+    this.handleReset();
+    this.hydrateRestaurantData(this.state.user);
+    this.props.history.push('/');
+  }
+
+  handleDeleteRecipe = async (e, recipe) => {
+    e.preventDefault();
+    await recipesService.deleteRecipe(this.state.restaurant._id, recipe._id);
+    this.handleReset();
+    this.hydrateRestaurantData(this.state.user);
+    this.props.history.push('/');
+  };
+  
   handleUpdateQuery = (e) => {
     const query = e.target.value;
     // filter it here
@@ -152,9 +163,18 @@ class App extends React.PureComponent {
     restaurantService.addUser(newStaff, this.state.restaurant._id);
   }
 
+  hydrateRestaurantData = async (user) => {
+    const restaurant = await restaurantService.getRestaurant(user._id);
+    const stations = await recipesService.getStationList();
+    this.setState({restaurant, stations});
+  }
+
+
   // During Signup/Login/Load:
   handleSignupOrLogin = () => {
-    this.setState({user: userService.getUser()});
+    let user = userService.getUser()
+    this.setState({user});
+    this.hydrateRestaurantData(user);
   };
 
   handleLogout = () => {
@@ -212,11 +232,12 @@ class App extends React.PureComponent {
           }/>
           <Route exact path="/form" render={() =>
             <RecipeForm
-              editMode={this.editMode}
+              editMode={this.state.editMode}
               recipe={this.state.recipe}
               restaurant={this.state.restaurant}
               handleReset={this.handleReset}
-              handleSubmitRecipe={this.handleSubmitRecipe}
+              handleCreateRecipe={this.handleCreateRecipe}
+              handleSubmitEdit={this.handleSubmitEdit}
               handleRecipeChange={this.handleRecipeChange}
               handleIngredientChange={this.handleIngredientChange}
               handleAddIngredient={this.handleAddIngredient}

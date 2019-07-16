@@ -1,22 +1,32 @@
 const BASE_URL = '/api/restaurants'
 
 export default {
-   createOrEditRecipe,
+   createRecipe,
    updateRecipe,
-   getStationList
+   getStationList,
+   deleteRecipe
 };
 
-function createOrEditRecipe(restaurantId, recipe, editMode) {
+function createRecipe(restaurantId, recipe) {
    const options = {
       method: 'POST',
       headers: {'Content-type': 'application/json'},
       body: JSON.stringify(recipe)
    };
-   return fetch(`${BASE_URL}/${restaurantId}/recipes`, options).then(res => res.json());
+   return fetch(`${BASE_URL}/${restaurantId}/newrecipe`, options).then(res => res.json());
 }
 
-function updateRecipe() {
+function updateRecipe(restaurantId, recipe) {
+   const options = {
+      method: 'PUT',
+      headers: {'Content-type': 'application/json'},
+      body: JSON.stringify(recipe)
+   };
+   return fetch(`${BASE_URL}/${restaurantId}/editrecipe`, options).then(res => res.json());
+}
 
+function deleteRecipe(restaurantId, recipeId) {
+   return fetch(`${BASE_URL}/${restaurantId}/deleterecipe/${recipeId}`, {method: 'DELETE'}).then(res => res.json());
 }
 
 async function getStationList() {

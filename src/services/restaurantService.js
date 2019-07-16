@@ -4,7 +4,6 @@ export default {
    createRestaurant,
    getRestaurant,
    addUser,
-   addRecipe
 };
 
 function createRestaurant(restaurant) {
@@ -20,10 +19,11 @@ function getRestaurant(userId) {
    return fetch(`${BASE_URL}/${userId}`, { method: 'GET' }).then(res => res.json());
 }
 
-function addUser(userId) {
-
-}
-
-function addRecipe(recipe) {
-
+function addUser(newUser, restaurantId) {
+   const options = {
+      method: 'POST',
+      headers: {'Content-type': 'application/json'},
+      body: JSON.stringify(newUser)
+   }
+   return fetch(`${BASE_URL}/${restaurantId}`, options).then(res => res.json());
 }
