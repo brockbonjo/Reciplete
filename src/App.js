@@ -211,6 +211,7 @@ class App extends React.PureComponent {
           restaurant={this.state.restaurant}
           handleLogout={this.handleLogout}
           handleSearch={this.handleSearch}
+          handleReset={this.handleReset}
           query={this.state.query}
           handleUpdateQuery={this.handleUpdateQuery}
         />

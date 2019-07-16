@@ -17,15 +17,15 @@ class NavBar extends React.Component {
                Staff
             </a>
             <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-               <Link className="dropdown-item" to="/">View Staff</Link>
-               <Link className="dropdown-item" to="/addstaff">Add/Promote</Link>
+               <Link className="dropdown-item" to="/" onClick={this.props.handleReset}>View Staff</Link>
+               <Link className="dropdown-item" to="/addstaff" onClick={this.props.handleReset}>Add/Promote</Link>
             </div>
          </li>
          : null : null;
 
       let navbar = this.props.user ? 
          <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <Link className="navbar-brand" to="/">Reciplete{this.props.restaurant ? ` - ${this.props.restaurant.name}` : null}</Link>
+            <Link className="navbar-brand" to="/" onClick={this.props.handleReset}>Reciplete{this.props.restaurant ? ` - ${this.props.restaurant.name}` : null}</Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                <span className="navbar-toggler-icon"></span>
             </button>
@@ -38,8 +38,8 @@ class NavBar extends React.Component {
                      Recipes
                      </a>
                   <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                     <Link className="dropdown-item" to="/">View All</Link>
-                     <Link className="dropdown-item" to="/form">Add a Recipe</Link>
+                     <Link className="dropdown-item" to="/" onClick={this.props.handleReset}>View All</Link>
+                     <Link className="dropdown-item" to="/form" onClick={this.props.handleReset}>Add a Recipe</Link>
                   </div>
                   </li>
                   <li className="nav-item active">
@@ -61,17 +61,17 @@ class NavBar extends React.Component {
          </nav>
          :
          <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <Link className="navbar-brand" to="/">Reciplete</Link>
+            <Link className="navbar-brand" to="/" onClick={this.props.handleReset}>Reciplete</Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
                <ul className="navbar-nav">
                   <li className="nav-item">
-                     <Link className="nav-link" to='/login'>Login</Link>
+                     <Link className="nav-link" to='/login' onClick={this.props.handleReset}>Login</Link>
                   </li>
                   <li className="nav-item">
-                     <Link className="nav-link" to='/signup'>Signup</Link>
+                     <Link className="nav-link" to='/signup' onClick={this.props.handleReset}>Signup</Link>
                   </li>
                </ul>
             </div>
