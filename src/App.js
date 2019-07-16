@@ -7,6 +7,7 @@ import restaurantService from './services/restaurantService';
 import NavBar from './components/NavBar/NavBar';
 import RecipeForm from './components/RecipeForm/RecipeForm';
 import AddStaffForm from './components/AddStaffForm/AddStaffForm';
+import StaffPage from './components/StaffPage/StaffPage';
 import RecipeList from './components/RecipeList/RecipeList';
 import LoginPage from './pages/LoginPage/LoginPage';
 import SignupPage from './pages/SignupPage/SignupPage';
@@ -158,23 +159,19 @@ class App extends React.PureComponent {
     }
   };
 
-  handleAddStaffMember = (e, newStaff) => {
-    e.preventDefault();
-    restaurantService.addUser(newStaff, this.state.restaurant._id);
-  }
-
-  hydrateRestaurantData = async (user) => {
-    const restaurant = await restaurantService.getRestaurant(user._id);
-    const stations = await recipesService.getStationList();
-    this.setState({restaurant, stations});
-  }
+  // hydrateRestaurantData = async () => {
+  //   const restaurant = await restaurantService.getRestaurant();
+  //   let stations = [];
+  //   if (restaurant) stations = [...new Set(restaurant.recipes.map(recipe => recipe.station))];
+  //   this.setState({restaurant, stations});
+  // }
 
 
   // During Signup/Login/Load:
   handleSignupOrLogin = () => {
     let user = userService.getUser()
     this.setState({user});
-    this.hydrateRestaurantData(user);
+    // this.hydrateRestaurantData();
   };
 
   handleLogout = () => {
@@ -197,9 +194,12 @@ class App extends React.PureComponent {
 
   async componentDidMount() {
     if (this.state.user) { 
-      const restaurant = await restaurantService.getRestaurant(this.state.user._id);
-      const stations = await recipesService.getStationList();
-      this.setState({restaurant, stations});
+      const restaurant = await restaurantService.getRestaurant();
+      let stations = [];
+      if (restaurant) stations = [...new Set(restaurant.recipes.map(recipe => recipe.station))];
+      this.setState({restaurant, stations}, () => {
+        // this.hydrateRestaurantData();
+      });
     }
   }
 
@@ -249,9 +249,19 @@ class App extends React.PureComponent {
             />
           }/>
           {this.state.user ? this.state.user.admin ? 
-            <Route exact path="/addstaff" render={() => 
+            <Route exact path="/addstaff" render={({ history }) => 
               <AddStaffForm 
                 handleAddStaffMember={this.handleAddStaffMember}
+                restaurant={this.state.restaurant}
+                history={history}
+              />
+            } />
+            : null : null}
+          {this.state.user ? this.state.user.admin ? 
+            <Route exact path="/staffpage" render={({ history }) => 
+              <StaffPage 
+                restaurant={this.state.restaurant}
+                history={history}
               />
             } />
             : null : null}

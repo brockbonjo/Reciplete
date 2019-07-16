@@ -6,10 +6,18 @@ class RecipeList extends Component {
    render() { 
       const stationLinks = 
          <div>
-            <button className="btn btn-primary m-1" onClick={() => this.props.handleStationQuery()}>All</button>
-            {this.props.stations.map((station, idx) => 
-               <button key={`st${idx}`} className="btn btn-primary m-1" onClick={() => this.props.handleStationQuery(station)}>{station}</button>
-            )}
+            {this.props.stations[0] ? 
+            <div className="container justify-content-center d-flex">
+               <button className="btn btn-primary m-1" onClick={() => this.props.handleStationQuery()}>All</button>
+               {this.props.stations.map((station, idx) => 
+                  <button key={`st${idx}`} className="btn btn-primary m-1" onClick={() => this.props.handleStationQuery(station)}>{station}</button>
+               )}
+            </div>
+            :
+            <div className="container justify-content-center d-flex">
+               <button type="button" className="btn btn-secondary">Your Recipes Will Appear Here Once You Are Added To a Restaurant</button>
+            </div>
+               };
          </div>
       
       let recipeSource = this.props.restaurant ? this.props.searchResults.length ? this.props.searchResults : this.props.restaurant.recipes : null;
@@ -53,7 +61,7 @@ class RecipeList extends Component {
       // End Block, actual render return: 
       return ( 
          <>
-            <div className="container justify-content-center d-flex">{stationLinks}</div>
+            {stationLinks}
             <div className="container"> {recipeCards} </div>
          </>
        );

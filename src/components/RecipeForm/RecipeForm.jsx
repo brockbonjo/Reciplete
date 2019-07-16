@@ -24,7 +24,7 @@ const RecipeForm = (props) => {
             <div className="form-group">
                <label>Ingredients:</label>
                {props.recipe.ingredients.map((ing, idx) => 
-                  <div className="row" key={`i${idx}`}>
+                  <div className="row mb-1" key={`i${idx}`}>
                      <div className="col-sm-6">
                            <input type="text" className="form-control" placeholder="Ingredient Name" value={ing.name} name="name" onChange={(e) => props.handleIngredientChange(e, idx)} />
                      </div>
@@ -32,8 +32,8 @@ const RecipeForm = (props) => {
                            <input type="text" className="form-control" placeholder="Amount" value={ing.amount} name="amount" onChange={(e) => props.handleIngredientChange(e, idx)} />
                      </div>
                      <div className="col-sm-2 btn-group">
-                        <button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => props.handleRemoveIngredient(idx)}>-</button>
-                        <button type="button" className="btn btn-sm btn-outline-primary" onClick={() => props.handleAddIngredient(idx)}>+</button>
+                        <button type="button" className="btn btn-sm btn-secondary text-light" onClick={() => props.handleRemoveIngredient(idx)}>-</button>
+                        <button type="button" className="btn btn-sm btn-primary text-light" onClick={() => props.handleAddIngredient(idx)}>+</button>
                      </div>
                   </div>
                   )}
@@ -41,14 +41,14 @@ const RecipeForm = (props) => {
             <div className="form-group justify-content-center">
                <label>Technique:</label>
                {props.recipe.technique.map((step, idx) => 
-                  <div className="row tech-row"  key={`t${idx}`}>
+                  <div className="row tech-row mb-1"  key={`t${idx}`}>
                      <label htmlFor="stepRow">{`${idx + 1}`}: </label>
                      <div className="col-sm-10 step-box">
                         <textarea id="stepRow" type="text" className="form-control" placeholder="Enter a Technical Step" value={step.content} name="content" onChange={(e) => props.handleStepChange(e, idx)} />
                      </div>
                      <div className="col-sm-2 btn-group button-box">
-                        <button type="button" className="form-group btn btn-sm btn-outline-secondary" onClick={() => props.handleRemoveStep(idx)}>-</button>
-                        <button type="button" className="form-group btn btn-sm btn-outline-primary" onClick={() => props.handleAddStep(idx)}>+</button>
+                        <button type="button" className="btn btn-sm btn-secondary text-light" onClick={() => props.handleRemoveStep(idx)}>-</button>
+                        <button type="button" className="btn btn-sm btn-primary text-light" onClick={() => props.handleAddStep(idx)}>+</button>
                      </div>
                   </div>
                )}

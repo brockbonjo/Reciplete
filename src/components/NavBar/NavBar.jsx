@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './NavBar.css';
+import cleaver from '../../images/cleaver.ico';
 
 class NavBar extends React.Component {
 
@@ -17,15 +18,18 @@ class NavBar extends React.Component {
                Staff
             </a>
             <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-               <Link className="dropdown-item" to="/" onClick={this.props.handleReset}>View Staff</Link>
+               <Link className="dropdown-item" to="/staffpage" onClick={this.props.handleReset}>View Staff</Link>
                <Link className="dropdown-item" to="/addstaff" onClick={this.props.handleReset}>Add/Promote</Link>
             </div>
          </li>
          : null : null;
 
       let navbar = this.props.user ? 
-         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <Link className="navbar-brand" to="/" onClick={this.props.handleReset}>Reciplete{this.props.restaurant ? ` - ${this.props.restaurant.name}` : null}</Link>
+         <nav className="navbar navbar-expand-lg navbar-light" style={{background: "rgb(155, 155, 155, .6)", borderBottom: "3px solid black"}}>
+            <Link className="navbar-brand" to="/" onClick={this.props.handleReset}>
+                <img src={cleaver} className="nav-img" alt="cleaverIcon"/>
+                Reciplete{this.props.restaurant ? ` - ${this.props.restaurant.name}` : null}
+            </Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                <span className="navbar-toggler-icon"></span>
             </button>
@@ -60,7 +64,7 @@ class NavBar extends React.Component {
             </div>
          </nav>
          :
-         <nav className="navbar navbar-expand-lg navbar-light bg-light">
+         <nav className="navbar navbar-expand-lg navbar-light" style={{background: "rgb(155, 155, 155, .6)", borderBottom: "3px solid black"}}>
             <Link className="navbar-brand" to="/" onClick={this.props.handleReset}>Reciplete</Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                <span className="navbar-toggler-icon"></span>

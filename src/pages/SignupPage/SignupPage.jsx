@@ -25,14 +25,6 @@ class SignupPage extends Component {
       this.setState({ user });
    }
 
-   handleNewRestaurantToggle = () => {
-      let newRestaurant = this.state.newRestaurant;
-      if (newRestaurant === false) {
-         newRestaurant = true;
-      } else { newRestaurant = false; };
-      this.setState({ newRestaurant });
-   }
-
    handleRestaurantChange = (e) => {
          const restaurant = this.state.restaurant;
          restaurant.name = e.target.value;
@@ -54,33 +46,96 @@ class SignupPage extends Component {
    }
 
    render() {
-      const restaurantName = this.state.newRestaurant ?
-            <label>Restaurant Name:</label>
-            : null;
-      const restaurantInput = this.state.newRestaurant ? 
-            <input type="text" placeholder="Restaurant Name" value={this.state.restaurant.name} name="name" onChange={this.handleRestaurantChange} />
-            : null;
+      const restaurantInput = this.state.newRestaurant &&
+            <div className="form-group col-sm-6">
+               <input 
+                  id="restName" 
+                  className="form-control"
+                  type="text" 
+                  placeholder="New Restaurant Name" 
+                  value={this.state.restaurant.name} 
+                  name="name" 
+                  onChange={this.handleRestaurantChange} 
+               />
+            </div>;
 
       return (
-      <div className='page'>
-         <h2>Sign Up</h2>
-         <label>Are You Registering A New Restaurant?:</label>
-         <input type="checkbox" onChange={this.handleNewRestaurantToggle} />
-         <form onSubmit={this.handleSubmit} >
-            {restaurantName}
-            {restaurantInput}
-            <label>Name:</label>
-            <input type="text" placeholder="Name" value={this.state.user.name} name="name" onChange={this.handleUserChange} />
-            <label>Email:</label>
-            <input type="email" placeholder="Email" value={this.state.user.email} name="email" onChange={this.handleUserChange} />
-            <label>Password:</label>
-            <input type="password" placeholder="Password" value={this.state.user.password} name="password" onChange={this.handleUserChange} />
-            <label>Confirm Password:</label>
-            <input type="password" placeholder="Confirm Password" value={this.state.user.passwordConf} name="passwordConf" onChange={this.handleUserChange} />
-            <label></label>
-            <button disabled={this.isFormInvalid()}>Sign Up</button>&nbsp;&nbsp;
-         </form>
-      </div>
+         <div className="container col-6">
+            <h2>Sign Up</h2>
+            <form onSubmit={this.handleSubmit} >
+               <div className={`form-row justify-content-center`}>
+                  <div className="form-group col-sm-6">
+                     <div className="input-group">
+                        <span className="form-control bg-secondary text-light">Registering A New Restaurant?</span>
+                        <div className="input-group-append">
+                           <div className="input-group-text"> 
+                              <input 
+                                 type="checkbox" 
+                                 checked={this.state.newRestaurant}
+                                 onChange={() => this.setState(prevState => ({newRestaurant: !prevState.newRestaurant}))} 
+                              />
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  {restaurantInput}
+               </div>
+               <div className="form-row">
+                  <div className="form-group col-sm-6">
+                     <label htmlFor="signupName">Name:</label>
+                     <input 
+                        id="signupName" 
+                        className="form-control"
+                        type="text" 
+                        placeholder="Name" 
+                        value={this.state.user.name} 
+                        name="name" 
+                        onChange={this.handleUserChange} 
+                     />
+                  </div>
+                  <div className="form-group col-sm-6">
+                     <label htmlFor="signupEmail">Email:</label>
+                     <input 
+                        id="signupEmail"
+                        className="form-control"
+                        type="email" 
+                        placeholder="Email" 
+                        value={this.state.user.email} 
+                        name="email" 
+                        onChange={this.handleUserChange} 
+                     />
+                  </div>
+               </div>
+               <div className="form-row">
+                  <div className="form-group col-sm-6">
+                     <label htmlFor="signupPassword">Password:</label>
+                     <input 
+                        id="signupPassword" 
+                        className="form-control"
+                        type="password" 
+                        placeholder="Password" 
+                        value={this.state.user.password} 
+                        name="password" 
+                        onChange={this.handleUserChange} 
+                     />
+                  </div>
+                  <div className="form-group col-sm-6">
+                     <label htmlFor="confirmPassword">Confirm Password:</label>
+                     <input 
+                        id="confirmPassword"
+                        className="form-control"
+                        type="password" 
+                        placeholder="Confirm Password" 
+                        value={this.state.user.passwordConf} 
+                        name="passwordConf" 
+                        onChange={this.handleUserChange} 
+                     />
+                  </div>
+               </div>
+               <label></label>
+               <button className="btn btn-success" type="submit" disabled={this.isFormInvalid()}>Sign Up</button>&nbsp;&nbsp;
+            </form>
+         </div>
       );
    }
 

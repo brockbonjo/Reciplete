@@ -5,7 +5,6 @@ module.exports = {
    create,
    edit,
    deleteRecipe,
-   stations,
 };
 
 async function create(req, res) {
@@ -37,11 +36,4 @@ async function deleteRecipe(req, res) {
    await Recipe.findOneAndDelete(req.params.recipeid);
    foundRestaurant.recipes = foundRestaurant.recipes.filter(recipe => recipe._id !== req.params.recipeid);
    await foundRestaurant.save();
-}
-
-async function stations(req, res) {
-   return await Recipe.find().distinct('station', function(err, stations) {
-      if (err) console.log(err);
-      res.json(stations);
-  });
 }

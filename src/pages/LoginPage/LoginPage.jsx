@@ -25,15 +25,36 @@ class LoginPage extends Component {
 
   render() {
     return (
-      <div className='page'>
+      <div className='container'>
         <h2>Log In</h2>
         <form onSubmit={this.handleSubmit}>
-          <label>Email:</label>
-          <input type="email" placeholder="Email" value={this.state.email} name="email" onChange={this.handleChange} />
-          <label>Password:</label>
-          <input type="password" placeholder="Password" value={this.state.pw} name="pw" onChange={this.handleChange} />
-          <label></label>
-          <button type='submit'>Log In</button>
+          <div className="form-row">
+            <div className="form-group col-sm-6">
+              <label htmlFor="loginEmail">Email:</label>
+              <input 
+                  id="loginEmail" 
+                  className="form-control"
+                  type="email" 
+                  placeholder="Email" 
+                  value={this.state.email} 
+                  name="email" 
+                  onChange={this.handleChange} 
+              />
+            </div>
+            <div className="form-group col-sm-6">
+              <label htmlFor="loginPassword">Password:</label>
+              <input 
+                  id="loginPassword"
+                  className="form-control"
+                  type="password" 
+                  placeholder="Password" 
+                  value={this.state.pw} 
+                  name="pw" 
+                  onChange={this.handleChange} 
+              />
+            </div>
+          </div>
+          <button className="btn btn-success" type='submit'>Log In</button>
         </form>
       </div>
     );
