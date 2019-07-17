@@ -18,7 +18,7 @@ class AddStaffForm extends React.PureComponent {
    handleAddStaffMember = async (e) => {
       e.preventDefault();
       try {
-         await restaurantService.addUser(this.state, this.props.restaurant._id);
+         await restaurantService.addOrUpdateUser(this.state, this.props.restaurant._id);
          alert(`Successfully added ${this.state.email} to staff!`);
          // this.props.history.push('/staffpage');
        } catch (error) {
@@ -29,10 +29,10 @@ class AddStaffForm extends React.PureComponent {
    render() { 
       return ( 
          <div className="container">
-            <h5>Add Staff Member</h5>
+            <h2 className="font-weight-bold bg-secondary rounded text-center">Add Staff Member:</h2>
             <form onSubmit={this.handleAddStaffMember}>
                <div className="form-group">
-                  <label htmlFor="exampleInputEmail1">Staff Email address</label>
+                  <label htmlFor="exampleInputEmail1" className="bg-light rounded p-1">Staff Email address</label>
                   <input 
                      type="email" 
                      className="form-control" 
@@ -42,7 +42,7 @@ class AddStaffForm extends React.PureComponent {
                      onChange={this.handleUpdateEmail}
                      placeholder="Enter staff email"></input>
                </div>
-               <div className="form-group form-check">
+               <div className="form-group form-check bg-light rounded pl-4 col-3">
                   <input 
                      type="checkbox" 
                      className="form-check-input" 

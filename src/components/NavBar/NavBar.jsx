@@ -13,14 +13,8 @@ class NavBar extends React.Component {
    render() {
       let user = this.props.user ? this.props.user.name : 'Chef';
       let admin = this.props.user ? this.props.user.admin ?
-         <li className="nav-item dropdown">
-            <a className="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               Staff
-            </a>
-            <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-               <Link className="dropdown-item" to="/staffpage" onClick={this.props.handleReset}>View Staff</Link>
-               <Link className="dropdown-item" to="/addstaff" onClick={this.props.handleReset}>Add/Promote</Link>
-            </div>
+         <li className="nav-item">
+               <Link className="nav-link" to="/staffpage" onClick={this.props.handleReset}>Staff</Link>
          </li>
          : null : null;
 
@@ -60,6 +54,7 @@ class NavBar extends React.Component {
                      value={this.props.query} 
                      onChange={(e) => this.props.handleUpdateQuery(e)}
                   />
+                  <Link className="btn btn-outline-success my-2 my-sm-0" to="/">Search</Link>
                </form>
             </div>
          </nav>

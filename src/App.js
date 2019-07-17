@@ -6,7 +6,6 @@ import recipesService from './services/recipesService';
 import restaurantService from './services/restaurantService';
 import NavBar from './components/NavBar/NavBar';
 import RecipeForm from './components/RecipeForm/RecipeForm';
-import AddStaffForm from './components/AddStaffForm/AddStaffForm';
 import StaffPage from './components/StaffPage/StaffPage';
 import RecipeList from './components/RecipeList/RecipeList';
 import LoginPage from './pages/LoginPage/LoginPage';
@@ -130,7 +129,7 @@ class App extends React.PureComponent {
     e.preventDefault();
     await recipesService.updateRecipe(this.state.restaurant._id ,this.state.recipe);
     this.handleReset();
-    this.hydrateRestaurantData(this.state.user);
+    // this.hydrateRestaurantData();
     this.props.history.push('/');
   }
 
@@ -138,7 +137,7 @@ class App extends React.PureComponent {
     e.preventDefault();
     await recipesService.deleteRecipe(this.state.restaurant._id, recipe._id);
     this.handleReset();
-    this.hydrateRestaurantData(this.state.user);
+    // this.hydrateRestaurantData(this.state.user);
     this.props.history.push('/');
   };
   
@@ -159,12 +158,12 @@ class App extends React.PureComponent {
     }
   };
 
-  // hydrateRestaurantData = async () => {
-  //   const restaurant = await restaurantService.getRestaurant();
-  //   let stations = [];
-  //   if (restaurant) stations = [...new Set(restaurant.recipes.map(recipe => recipe.station))];
-  //   this.setState({restaurant, stations});
-  // }
+  hydrateRestaurantData = async () => {
+    const restaurant = await restaurantService.getRestaurant();
+    let stations = [];
+    if (restaurant) stations = [...new Set(restaurant.recipes.map(recipe => recipe.station))];
+    this.setState({restaurant, stations});
+  }
 
 
   // During Signup/Login/Load:
@@ -198,7 +197,7 @@ class App extends React.PureComponent {
       let stations = [];
       if (restaurant) stations = [...new Set(restaurant.recipes.map(recipe => recipe.station))];
       this.setState({restaurant, stations}, () => {
-        // this.hydrateRestaurantData();
+        this.hydrateRestaurantData();
       });
     }
   }
@@ -249,17 +248,9 @@ class App extends React.PureComponent {
             />
           }/>
           {this.state.user ? this.state.user.admin ? 
-            <Route exact path="/addstaff" render={({ history }) => 
-              <AddStaffForm 
-                handleAddStaffMember={this.handleAddStaffMember}
-                restaurant={this.state.restaurant}
-                history={history}
-              />
-            } />
-            : null : null}
-          {this.state.user ? this.state.user.admin ? 
             <Route exact path="/staffpage" render={({ history }) => 
               <StaffPage 
+                hydrateRestaurantData={this.hydrateRestaurantData}
                 restaurant={this.state.restaurant}
                 history={history}
               />

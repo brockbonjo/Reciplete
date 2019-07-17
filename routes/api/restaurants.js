@@ -4,7 +4,7 @@ const restaurantsController = require('../../controllers/restaurants');
 
 router.use(require('../../config/auth'));
 router.get('/', checkAuth, restaurantsController.get);
-router.put('/:id', restaurantsController.addUser);
+router.put('/:id', restaurantsController.addOrUpdateUser);
 router.post('/', restaurantsController.create);
 
 function checkAuth(req, res, next) {

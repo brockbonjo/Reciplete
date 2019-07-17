@@ -5,8 +5,7 @@ const BASE_URL = '/api/restaurants'
 export default {
    createRestaurant,
    getRestaurant,
-   addUser,
-   addAdmin
+   addOrUpdateUser,
 };
 
 function createRestaurant(restaurant) {
@@ -32,15 +31,11 @@ function getRestaurant() {
    });
 }
 
-function addAdmin() {
-
-}
-
-function addUser(newUser, restaurantId) {
+function addOrUpdateUser(user, restaurantId) {
    const options = {
       method: 'PUT',
       headers: {'Content-type': 'application/json'},
-      body: JSON.stringify(newUser)
+      body: JSON.stringify(user)
    }
    return fetch(`${BASE_URL}/${restaurantId}`, options).then(res => {
       if (res.ok) return res.json();
