@@ -10,6 +10,7 @@ import StaffPage from './components/StaffPage/StaffPage';
 import RecipeList from './components/RecipeList/RecipeList';
 import LoginPage from './pages/LoginPage/LoginPage';
 import SignupPage from './pages/SignupPage/SignupPage';
+import LandingPage from './pages/LandingPage/LandingPage';
 
 
 class App extends React.PureComponent {
@@ -228,7 +229,7 @@ class App extends React.PureComponent {
                   restaurant={this.state.restaurant}
                 />
               :
-              <Redirect to="/login" />
+              <Redirect to="/landing" />
             )
           }/>
           <Route exact path="/form" render={() =>
@@ -268,6 +269,11 @@ class App extends React.PureComponent {
             <LoginPage 
               history={history}
               handleSignupOrLogin={this.handleSignupOrLogin}
+            />
+          }/>
+          <Route exact path='/landing' render={({ history }) => 
+            <LandingPage 
+              history={history}
             />
           }/>
         </Switch>

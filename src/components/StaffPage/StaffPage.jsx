@@ -41,7 +41,7 @@ class StaffPage extends React.PureComponent {
                         <form onSubmit={(e) => this.handleRemoveUser(e, user._id)}>
                            <button type="submit" className="btn btn-danger">Remove User</button>
                            <input 
-                              className="ml-1"
+                              className="ml-2"
                               type="checkbox"
                               required/>
                         </form>

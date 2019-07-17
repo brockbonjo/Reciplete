@@ -37,10 +37,9 @@ async function get(req, res) {
 
 async function addOrUpdateUser(req, res) {
    let foundUser = await Users.findOneAndUpdate({ email: req.body.email }, req.body, { new: true });
+   // if (foundUser._id == req.user._id) return res.status(500).json(foundUser);
    let foundRestaurant = await Restaurant.findById(req.params.id);
-   console.log(foundRestaurant.users);
    if (foundUser && !foundRestaurant.users.includes(foundUser._id)) foundRestaurant.users.push(foundUser._id);
-   console.log(foundRestaurant.users);
    
    foundRestaurant.save()
       .then((savedRestaurant) => {
@@ -52,12 +51,9 @@ async function addOrUpdateUser(req, res) {
 }
 
 async function removeUser(req, res) {
-   console.log(req.body);
    let foundRestaurant = await Restaurant.findById(req.params.id);
    let users = foundRestaurant.users.filter(userId => userId != req.body.userId);
-   console.log(foundRestaurant.users);
    foundRestaurant.users = users;
-   console.log(foundRestaurant.users);
    foundRestaurant.save(err => {
       if (err) return res.json(err);
       res.json(foundRestaurant);
