@@ -5,6 +5,7 @@ module.exports = {
    create,
    get,
    addOrUpdateUser,
+   removeUser
 };
 
 async function create(req, res) {
@@ -35,17 +36,12 @@ async function get(req, res) {
 }
 
 async function addOrUpdateUser(req, res) {
-   let foundUser = await Users.findOneAndUpdate({ email: req.body.email }, req.body).exec((err, user) => {
-      if (err) {
-         console.log(err);
-      } else {
-         console.log(user);
-      }
-   });
+   let foundUser = await Users.findOneAndUpdate({ email: req.body.email }, req.body, { new: true });
    let foundRestaurant = await Restaurant.findById(req.params.id);
-
+   console.log(foundRestaurant.users);
    if (foundUser && !foundRestaurant.users.includes(foundUser._id)) foundRestaurant.users.push(foundUser._id);
-
+   console.log(foundRestaurant.users);
+   
    foundRestaurant.save()
       .then((savedRestaurant) => {
          res.status(200).json(savedRestaurant);
@@ -53,4 +49,17 @@ async function addOrUpdateUser(req, res) {
       .catch((err) => {
          res.status(500).json(err);
       })
+}
+
+async function removeUser(req, res) {
+   console.log(req.body);
+   let foundRestaurant = await Restaurant.findById(req.params.id);
+   let users = foundRestaurant.users.filter(userId => userId != req.body.userId);
+   console.log(foundRestaurant.users);
+   foundRestaurant.users = users;
+   console.log(foundRestaurant.users);
+   foundRestaurant.save(err => {
+      if (err) return res.json(err);
+      res.json(foundRestaurant);
+   });
 }

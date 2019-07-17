@@ -6,6 +6,7 @@ export default {
    createRestaurant,
    getRestaurant,
    addOrUpdateUser,
+   removeUser
 };
 
 function createRestaurant(restaurant) {
@@ -37,8 +38,20 @@ function addOrUpdateUser(user, restaurantId) {
       headers: {'Content-type': 'application/json'},
       body: JSON.stringify(user)
    }
-   return fetch(`${BASE_URL}/${restaurantId}`, options).then(res => {
+   return fetch(`${BASE_URL}/users/${restaurantId}`, options).then(res => {
       if (res.ok) return res.json();
       throw new Error('Email not Found!');
+   });
+}
+
+function removeUser(userId, restaurantId) {
+   const options = {
+      method: 'PUT',
+      headers: {'Content-type': 'application/json'},
+      body: JSON.stringify(userId)
+   }
+   return fetch(`${BASE_URL}/users/remove/${restaurantId}`, options).then(res => {
+      if (res.ok) return res.json();
+      throw new Error('Something went wrong while trying to remove the user!');
    });
 }

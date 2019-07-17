@@ -25,7 +25,8 @@ class App extends React.PureComponent {
       technique: [this.getNewStep()]
     },
     editMode: false,
-    query: ''
+    query: '',
+    toggle: true
   }
 
   initializeState() {
@@ -129,7 +130,7 @@ class App extends React.PureComponent {
     e.preventDefault();
     await recipesService.updateRecipe(this.state.restaurant._id ,this.state.recipe);
     this.handleReset();
-    // this.hydrateRestaurantData();
+    this.hydrateRestaurantData();
     this.props.history.push('/');
   }
 
@@ -137,7 +138,7 @@ class App extends React.PureComponent {
     e.preventDefault();
     await recipesService.deleteRecipe(this.state.restaurant._id, recipe._id);
     this.handleReset();
-    // this.hydrateRestaurantData(this.state.user);
+    this.hydrateRestaurantData();
     this.props.history.push('/');
   };
   
@@ -162,7 +163,7 @@ class App extends React.PureComponent {
     const restaurant = await restaurantService.getRestaurant();
     let stations = [];
     if (restaurant) stations = [...new Set(restaurant.recipes.map(recipe => recipe.station))];
-    this.setState({restaurant, stations});
+    this.setState(prevState => ({restaurant, stations, toggle: !prevState.toggle}));
   }
 
 
@@ -170,7 +171,7 @@ class App extends React.PureComponent {
   handleSignupOrLogin = () => {
     let user = userService.getUser()
     this.setState({user});
-    // this.hydrateRestaurantData();
+    this.hydrateRestaurantData();
   };
 
   handleLogout = () => {

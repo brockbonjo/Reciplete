@@ -20,7 +20,6 @@ class AddStaffForm extends React.PureComponent {
       try {
          await restaurantService.addOrUpdateUser(this.state, this.props.restaurant._id);
          alert(`Successfully added ${this.state.email} to staff!`);
-         // this.props.history.push('/staffpage');
        } catch (error) {
          alert(error.message);
        }
